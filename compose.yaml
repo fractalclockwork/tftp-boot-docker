@@ -1,0 +1,17 @@
+services:
+  tftp-boot:
+    build: .
+    image: tftp-boot-docker:local
+    container_name: tftp-boot
+    # Host networking: required for reliable LAN PXE/TFTP (UDP data ports).
+    # Container binds host UDP 69 and TCP 80 directly; no ports: mapping.
+    network_mode: host
+    volumes:
+      - ./data/tftp:/var/lib/tftpboot
+      - ./data/http:/var/www/html
+      - ./data/iso:/data/iso:ro
+    environment:
+      TFTP_SERVER_IP: ${TFTP_SERVER_IP:-}
+      UBUNTU_DESKTOP_VERSION: ${UBUNTU_DESKTOP_VERSION:-26.04.1}
+      HTTP_PORT: ${HTTP_PORT:-80}
+    restart: unless-stopped

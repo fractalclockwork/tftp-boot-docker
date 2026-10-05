@@ -1,0 +1,22 @@
+# Runtime data except tracked placeholders (.gitkeep only)
+/data/**/*
+!/data/**/
+!/data/**/.gitkeep
+
+# Large / generated boot artifacts if placed outside data/
+*.iso
+*.squashfs
+*.efi
+vmlinuz
+initrd
+initrd.img
+
+# Local env overrides (commit .env.example only)
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.DS_Store
+*~
+*.swp

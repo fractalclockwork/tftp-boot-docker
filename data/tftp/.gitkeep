@@ -1,0 +1,2 @@
+# Keep directory placeholders in git; ignore bulky downloads via root .gitignore *.iso
+.gitkeep

@@ -1,0 +1,15 @@
+---
+description: tftp-boot-docker agent constraints and phase workflow
+alwaysApply: true
+---
+
+# tftp-boot-docker
+
+- Read `AGENTS.md` first. Follow `docs/workflow.md` for phase execution: claim `in_progress`, meet acceptance criteria before `done`, sync the AGENTS.md phase table.
+- Execute only the current `pending` phase unless the user expands scope.
+- Do not add a DHCP server to this project. OpenWrt owns DHCP.
+- Do not add autoinstall / cloud-init unless a new phase explicitly requires it.
+- Treat `docs/operations.md`, `docs/iso.md`, and `docs/openwrt.md` as contracts—match them or update them in the same change.
+- Prefer updating phase packet status and docs over inventing parallel plans.
+- Keep changes scoped to the active phase’s acceptance criteria.
+- Do not bake the Ubuntu ISO into image layers; keep it on the host volume under `data/iso/`.
