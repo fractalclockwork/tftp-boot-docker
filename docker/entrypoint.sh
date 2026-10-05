@@ -15,8 +15,8 @@ if [ ! -f /var/www/html/index.html ]; then
 <body>
   <h1>tftp-boot-docker</h1>
   <ul>
-    <li><a href="/iso/">/iso/</a> — Desktop ISO + SHA256SUMS (host <code>./data/iso</code>)</li>
-    <li><a href="/live/">/live/</a> — extracted live tree (host <code>./data/http/live</code>)</li>
+    <li><a href="/iso/">/iso/</a> — Ubuntu live ISOs + SHA256SUMS (host <code>./data/iso</code>)</li>
+    <li><a href="/live/">/live/</a> — per-ISO trees <code>&lt;stem&gt;/</code> (NFS-exported)</li>
   </ul>
 </body>
 </html>

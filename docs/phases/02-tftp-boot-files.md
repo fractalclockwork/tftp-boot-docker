@@ -46,5 +46,5 @@ Host→published-port TFTP can hang under bridge NAT; prefer same-network client
 ## Out of scope
 
 - HTTP live image / ISO fetch (phase 3)
-- Complete casper boot into Desktop (phase 4)
+- Complete casper boot (phase 4+; NFS multi-ISO in phases 6–7)
 - OpenWrt device configuration (phase 5)

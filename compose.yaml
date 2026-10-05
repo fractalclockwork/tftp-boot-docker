@@ -4,14 +4,16 @@ services:
     image: tftp-boot-docker:local
     container_name: tftp-boot
     # Host networking: required for reliable LAN PXE/TFTP (UDP data ports).
-    # Container binds host UDP 69 and TCP 80 directly; no ports: mapping.
+    # Container binds host UDP 69, TCP 80, and NFS (111/2049) directly; no ports: mapping.
     network_mode: host
+    # Privileged: kernel nfsd for casper netboot=nfs (low-RAM live boot).
+    privileged: true
     volumes:
       - ./data/tftp:/var/lib/tftpboot
       - ./data/http:/var/www/html
       - ./data/iso:/data/iso:ro
     environment:
       TFTP_SERVER_IP: ${TFTP_SERVER_IP:-}
-      UBUNTU_DESKTOP_VERSION: ${UBUNTU_DESKTOP_VERSION:-26.04.1}
+      UBUNTU_VERSION: ${UBUNTU_VERSION:-${UBUNTU_DESKTOP_VERSION:-26.04.1}}
       HTTP_PORT: ${HTTP_PORT:-80}
     restart: unless-stopped

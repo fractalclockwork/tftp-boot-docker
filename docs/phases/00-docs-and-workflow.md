@@ -10,7 +10,7 @@ Documentation scaffolding, ops contracts, ISO pull contract, OpenWrt setup docs,
 
 ## Inputs
 
-- Project intent: Docker TFTP + HTTP live Desktop; DHCP on OpenWrt
+- Project intent: Docker TFTP + HTTP/NFS Ubuntu live PXE; DHCP on OpenWrt (see current [AGENTS.md](../../AGENTS.md))
 - Plan decisions: AGENTS.md + phase packets + always-apply Cursor rule
 
 ## Tasks

@@ -1,4 +1,4 @@
-# Phase 3 — Live image over HTTP
+# Phase 3 — Live image HTTP
 
 ## Status
 
@@ -6,47 +6,40 @@
 
 ## Goal
 
-Implement [docs/iso.md](../iso.md): fetch script with checksum verification; serve the pulled Ubuntu Desktop 26.04.1 live image (ISO and/or extracted casper) over HTTP.
+Implement [docs/iso.md](../iso.md): fetch script with checksum verification; serve the pulled Ubuntu live image (ISO and/or extracted casper) over HTTP.
+
+> **Historical note:** Originally pinned Desktop. Current pin is **live-server**; multi-ISO layout is `data/http/live/<stem>/` (phases 6–7). See current [iso.md](../iso.md).
 
 ## Inputs
 
 - [docs/iso.md](../iso.md) — pin, URLs, fetch contract
-- [docs/operations.md](../operations.md) — prep order
-- Phase 1 HTTP service and volume mounts
+- Phase 1 compose/HTTP skeleton
 
 ## Tasks
 
-- [x] Add `./scripts/fetch-iso.sh` meeting the iso.md contract (idempotent, SHA-256 verify, print path)
-- [x] Wire compose/HTTP root so the verified ISO or extracted live tree is reachable
-- [x] Document the HTTP URL layout operators and phase 4 will use
+- [x] Add `./scripts/fetch-iso.sh` meeting the iso.md contract
+- [x] Extract casper for HTTP serving
+- [x] Document the HTTP URL layout
 - [x] Confirm `.gitignore` covers `data/iso` blobs
-- [x] Update iso.md/operations.md if paths or flags differ from the contract
+- [x] Update iso.md/operations.md if paths differ
 
 ## Acceptance criteria
 
-- `./scripts/fetch-iso.sh` downloads (or skips) and verifies the pinned Desktop ISO
-- HTTP GET succeeds for the documented live-image path(s) after compose is up
-- ISO is not copied into image layers
-- Ordinary `docker compose down` leaves the ISO on disk
+- `./scripts/fetch-iso.sh` downloads (or skips) and verifies the pinned ISO
+- HTTP serves ISO and extracted live paths
+- `docker compose down` retains ISO on host volume
 
-## Verification
+## Verification (as completed)
 
 ```text
 ./scripts/fetch-iso.sh
-# → verified ubuntu-26.04.1-desktop-amd64.iso; extracted data/http/live/casper/
-
 curl /                         → 200
-curl /iso/ubuntu-26.04.1-…iso  → 200, Accept-Ranges: bytes, ~6.0GiB
-curl /live/casper/vmlinuz      → 200
-curl /live/casper/initrd       → 200
-curl /live/casper/minimal.standard.en.squashfs → 200
-
-docker compose down  → ISO retained under data/iso/
-Image layers do not contain the ISO blob
+curl /iso/…iso                 → 200, Accept-Ranges
 ```
+
+Current paths use `/live/<stem>/casper/…`. Operator sync: `./scripts/sync-images.sh`.
 
 ## Out of scope
 
-- Wiring bootloader kernel cmdline to casper (phase 4)
-- OpenWrt verification (phase 5)
+- Wiring bootloader kernel cmdline (phase 4+)
 - Autoinstall

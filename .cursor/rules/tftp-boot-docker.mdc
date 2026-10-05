@@ -12,4 +12,5 @@ alwaysApply: true
 - Treat `docs/operations.md`, `docs/iso.md`, and `docs/openwrt.md` as contracts—match them or update them in the same change.
 - Prefer updating phase packet status and docs over inventing parallel plans.
 - Keep changes scoped to the active phase’s acceptance criteria.
-- Do not bake the Ubuntu ISO into image layers; keep it on the host volume under `data/iso/`.
+- Do not bake Ubuntu ISOs into image layers; keep them under `data/iso/`.
+- Multi-ISO: prefer `./scripts/sync-images.sh` after changing ISOs; match `docs/iso.md` live/`<stem>` layout.

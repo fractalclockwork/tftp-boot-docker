@@ -7,8 +7,8 @@ Instructions for AI agents working in this repository.
 Build a Docker stack that:
 
 1. Serves a UEFI network boot chain over **TFTP**.
-2. Serves the **Ubuntu Desktop 26.04.1 LTS** live image over **HTTP**.
-3. Integrates with **OpenWrt DHCP** (external); clients PXE-boot into the live Desktop environment.
+2. Serves one or more **Ubuntu live ISOs** (default: Server 26.04.1) over **HTTP/NFS**.
+3. Integrates with **OpenWrt DHCP** (external); clients PXE-boot a **GRUB menu** to pick an image and run an interactive install (fits ~8 GiB RAM for live-server; no gateway required for install-from-image with `pool/`).
 
 ## Hard constraints
 
@@ -28,7 +28,7 @@ Build a Docker stack that:
 | Contract | When it matters |
 |----------|-----------------|
 | [docs/operations.md](docs/operations.md) | Phase 1+ (compose up/down, ports, volumes) |
-| [docs/iso.md](docs/iso.md) | Phase 3 (fetch script + HTTP live image) |
+| [docs/iso.md](docs/iso.md) | Phase 3+ (fetch); phase 6–7 (live-server pin, multi-ISO sync) |
 | [docs/openwrt.md](docs/openwrt.md) | Phase 5 (verify); operators may apply earlier |
 
 ## Phases
@@ -41,7 +41,9 @@ Build a Docker stack that:
 | 3 | [docs/phases/03-live-image-http.md](docs/phases/03-live-image-http.md) | done |
 | 4 | [docs/phases/04-boot-chain.md](docs/phases/04-boot-chain.md) | done |
 | 5 | [docs/phases/05-openwrt-integration.md](docs/phases/05-openwrt-integration.md) | done |
+| 6 | [docs/phases/06-live-server-installer.md](docs/phases/06-live-server-installer.md) | done |
+| 7 | [docs/phases/07-multi-iso-menu.md](docs/phases/07-multi-iso-menu.md) | done |
 
 ## Definition of done (project)
 
-A PXE client on the LAN, using OpenWrt for DHCP, boots into the Ubuntu Desktop 26.04.1 LTS live environment served by this stack.
+A PXE client on the LAN, using OpenWrt for DHCP, boots a GRUB menu of synced Ubuntu live ISOs (default: Server 26.04.1 live-server over NFS / subiquity) and can complete an interactive install without a default gateway when `pool/` is present.

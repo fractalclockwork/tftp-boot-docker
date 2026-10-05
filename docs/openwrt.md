@@ -10,7 +10,7 @@ OpenWrt owns DHCP. This project’s container owns TFTP and HTTP. Configure Open
 | `TFTP_SERVER_IP` | Stable LAN IP of the Docker host (set in `.env`; see `.env.example`) |
 | Bootfile | `grubx64.efi` (must match [architecture.md](architecture.md)) |
 
-Compose uses **`network_mode: host`** so TFTP/HTTP bind the host’s UDP 69 and TCP 80. After changing `TFTP_SERVER_IP`, re-run `./scripts/publish-boot-chain.sh`.
+Compose uses **`network_mode: host`** so TFTP/HTTP/NFS bind the host (UDP 69, TCP 80, NFS 111/2049). After changing `TFTP_SERVER_IP` or adding ISOs, re-run `./scripts/sync-images.sh`.
 
 ### Example lab
 
@@ -27,10 +27,10 @@ Replace examples with your addresses everywhere below (or export `TFTP_SERVER_IP
 - [ ] OpenWrt is the only DHCP server on the PXE LAN segment
 - [ ] Container host has a stable `TFTP_SERVER_IP` on that LAN
 - [ ] dnsmasq PXE options applied (`dhcp_boot=grubx64.efi,,TFTP_SERVER_IP`)
-- [ ] Clients can reach `TFTP_SERVER_IP:80/tcp` and `TFTP_SERVER_IP:69/udp`
+- [ ] Clients can reach `TFTP_SERVER_IP` on UDP **69**, TCP **80**, and NFS (**111** / **2049**)
 - [ ] Boot filename is `grubx64.efi`
 - [ ] OpenWrt’s own TFTP server disabled (`enable_tftp=0`)
-- [ ] UEFI client reaches live Desktop (see [laptop-pxe-test.md](laptop-pxe-test.md))
+- [ ] UEFI client reaches GRUB multi-ISO menu → live-server subiquity (or Desktop live); see [laptop-pxe-test.md](laptop-pxe-test.md)
 
 ## Setup
 
@@ -38,8 +38,9 @@ Replace examples with your addresses everywhere below (or export `TFTP_SERVER_IP
 
 ```bash
 cp .env.example .env   # set TFTP_SERVER_IP
-./scripts/publish-boot-chain.sh
-docker compose up -d
+./scripts/fetch-iso.sh           # if needed
+./scripts/sync-images.sh         # extract ISOs + GRUB
+docker compose up -d --build
 curl -fsS -o /dev/null -w '%{http_code}\n' "http://${TFTP_SERVER_IP:-127.0.0.1}/"
 ```
 
@@ -116,7 +117,7 @@ curl -fsS -o /dev/null -w '%{http_code}\n' http://TFTP_SERVER_IP/
 # tftp TFTP_SERVER_IP → get grubx64.efi
 ```
 
-**UEFI client smoke:** Network boot → GRUB menu (“Ubuntu Desktop 26.04.1 Live”) → casper fetches the ISO over HTTP. Prefer UEFI PXE (not Legacy Intel Boot Agent). Client should have ample RAM (often ≥16 GiB for Desktop ISO netboot).
+**UEFI client smoke:** Network boot → GRUB multi-ISO menu (default live-server NFS) → casper NFS-mounts `/var/www/html/live/<stem>` → subiquity. Prefer UEFI PXE (not Legacy Intel Boot Agent). Firewall must allow NFS (111/2049) as well as TFTP/HTTP. No gateway required for Server install-from-image when `pool/` is present.
 
 ### 6. Rollback
 

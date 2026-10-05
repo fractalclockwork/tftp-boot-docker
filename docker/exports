@@ -1,0 +1,3 @@
+# Casper netboot=nfs — parent of per-ISO trees (…/live/<iso-stem>/).
+# Clients: nfsroot=TFTP_SERVER_IP:/var/www/html/live/<iso-stem>
+/var/www/html/live *(ro,sync,no_subtree_check,no_root_squash,insecure)

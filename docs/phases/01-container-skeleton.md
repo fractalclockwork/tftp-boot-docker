@@ -45,5 +45,5 @@ docker compose exec tftp-boot supervisorctl status
 
 - Real NBP / bootloader files (phase 2)
 - ISO fetch script and serving live casper (phase 3)
-- Full boot chain to Desktop (phase 4)
+- Full boot chain / live session (later phases; current default is live-server over NFS)
 - OpenWrt live verification (phase 5)

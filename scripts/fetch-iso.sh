@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Fetch and verify the pinned Ubuntu Desktop LTS ISO (docs/iso.md).
+# Fetch and verify the pinned Ubuntu live-server LTS ISO (docs/iso.md).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ISO_DIR="${ROOT}/data/iso"
 
 # Single source of truth for the pin (override with env)
-UBUNTU_DESKTOP_VERSION="${UBUNTU_DESKTOP_VERSION:-26.04.1}"
-ISO_NAME="ubuntu-${UBUNTU_DESKTOP_VERSION}-desktop-amd64.iso"
-PRIMARY_BASE="https://releases.ubuntu.com/${UBUNTU_DESKTOP_VERSION}"
-FALLBACK_BASE="https://cdimage.ubuntu.com/ubuntu/releases/${UBUNTU_DESKTOP_VERSION}/release"
+UBUNTU_VERSION="${UBUNTU_VERSION:-${UBUNTU_DESKTOP_VERSION:-26.04.1}}"
+ISO_NAME="ubuntu-${UBUNTU_VERSION}-live-server-amd64.iso"
+PRIMARY_BASE="https://releases.ubuntu.com/${UBUNTU_VERSION}"
+FALLBACK_BASE="https://cdimage.ubuntu.com/ubuntu/releases/${UBUNTU_VERSION}/release"
 
 FORCE=0
 EXTRACT=1

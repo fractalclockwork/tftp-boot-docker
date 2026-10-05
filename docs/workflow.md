@@ -42,7 +42,7 @@ Read:
 | Phase | Contracts |
 |-------|-----------|
 | 1+ | [operations.md](operations.md) |
-| 3 | [iso.md](iso.md) (+ operations) |
+| 3, 6, 7 | [iso.md](iso.md) (+ operations) |
 | 5 | [openwrt.md](openwrt.md) (+ operations) |
 
 ### 2. Select

@@ -37,13 +37,13 @@ docker run --rm \
 if [[ ! -f "${GRUB_DIR}/grub.cfg" ]]; then
   cat > "${GRUB_DIR}/grub.cfg" <<'EOF'
 # tftp-boot-docker — served from TFTP as (tftp)/grub/grub.cfg
-# Run ./scripts/publish-boot-chain.sh after fetch-iso for live Desktop entries.
+# Run ./scripts/publish-boot-chain.sh after fetch-iso for live-server GRUB entries.
 set timeout=5
 set default=0
 
 menuentry "tftp-boot-docker (run publish-boot-chain.sh)" {
     echo "Fetched grub.cfg over TFTP."
-    echo "Run ./scripts/publish-boot-chain.sh to enable live Desktop boot."
+    echo "Run ./scripts/publish-boot-chain.sh to enable live-server boot."
     sleep --interruptible 10
 }
 EOF
@@ -54,4 +54,4 @@ echo "Published:"
 ls -la "${TFTP_DIR}/${BOOTFILE}" "${GRUB_DIR}/grub.cfg"
 echo "Bootfile for OpenWrt: ${BOOTFILE}"
 echo "GRUB prefix: (tftp)/grub  →  ${GRUB_DIR}/grub.cfg"
-echo "For live Desktop menu: ./scripts/publish-boot-chain.sh"
+echo "For live-server menu: ./scripts/publish-boot-chain.sh"
